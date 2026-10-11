@@ -1,0 +1,113 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Appointment {
+  id            String   @id @default(cuid())
+  requestKey    String   @unique
+  concern       String
+  patientName   String
+  phone         String
+  preferredDate DateTime
+  preferredTime String
+  message       String?
+  consent       Boolean
+
+  status AppointmentStatus @default(NEW)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  statusHistory AppointmentStatusHistory[]
+}
+
+model AppointmentStatusHistory {
+  id               String            @id @default(cuid())
+  appointmentId    String
+  changedByAdminId String
+  previousStatus   AppointmentStatus
+  newStatus        AppointmentStatus
+  createdAt        DateTime          @default(now())
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Restrict)
+  changedBy   AdminUser   @relation(fields: [changedByAdminId], references: [id], onDelete: Restrict)
+
+  @@index([appointmentId, createdAt])
+  @@index([changedByAdminId, createdAt])
+}
+
+enum AppointmentStatus {
+  NEW
+  CONTACTED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  CLINIC_ADMIN
+  STAFF
+}
+
+enum AdminStatus {
+  ACTIVE
+  DISABLED
+}
+
+model AdminUser {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  name         String
+  passwordHash String
+  role         AdminRole   @default(STAFF)
+  status       AdminStatus @default(ACTIVE)
+
+  lastLoginAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  sessions        AdminSession[]
+  invitationsSent AdminInvitation[] @relation("AdminInvitationsSent")
+
+  appointmentStatusChanges AppointmentStatusHistory[]
+}
+
+model AdminSession {
+  id          String    @id @default(cuid())
+  adminUserId String
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  createdAt   DateTime  @default(now())
+  lastUsedAt  DateTime?
+
+  adminUser AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+
+  @@index([adminUserId])
+  @@index([expiresAt])
+}
+
+model AdminInvitation {
+  id          String    @id @default(cuid())
+  email       String
+  name        String
+  role        AdminRole
+  tokenHash   String    @unique
+  invitedById String
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  invitedBy AdminUser @relation("AdminInvitationsSent", fields: [invitedById], references: [id], onDelete: Restrict)
+
+  @@index([email])
+  @@index([expiresAt])
+  @@index([invitedById])
+}

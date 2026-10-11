@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f5ef;
+  --foreground: #102027;
+
+  --midnight: #0b1720;
+  --deep-teal: #123d43;
+  --teal: #1d5a5d;
+
+  --ivory: #f7f5ef;
+  --mist: #e8efed;
+
+  --gold: #b4935a;
+  --gold-light: #d6bd8b;
+
+  --white: #ffffff;
+  --muted: #687579;
+  --border: #dce3e0;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  --shadow-soft: 0 12px 40px rgba(11, 23, 32, 0.08);
+  --shadow-card: 0 18px 60px rgba(11, 23, 32, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+/* 
+a {
+  color: inherit;
+  text-decoration: none;
+} */
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--white);
+}
+
+/* Accessible keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+/* Better anchor navigation beneath the fixed/absolute header */
+[id] {
+  scroll-margin-top: 7rem;
+}
+
+/* Respect users who request reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Premium but restrained utility */
+.text-balance {
+  text-wrap: balance;
+}
