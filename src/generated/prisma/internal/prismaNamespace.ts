@@ -401,7 +401,8 @@ export const ModelName = {
   AppointmentStatusHistory: 'AppointmentStatusHistory',
   AdminUser: 'AdminUser',
   AdminSession: 'AdminSession',
-  AdminInvitation: 'AdminInvitation'
+  AdminInvitation: 'AdminInvitation',
+  ClinicSetting: 'ClinicSetting'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "appointment" | "appointmentStatusHistory" | "adminUser" | "adminSession" | "adminInvitation"
+    modelProps: "appointment" | "appointmentStatusHistory" | "adminUser" | "adminSession" | "adminInvitation" | "clinicSetting"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -791,6 +792,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ClinicSetting: {
+      payload: Prisma.$ClinicSettingPayload<ExtArgs>
+      fields: Prisma.ClinicSettingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ClinicSettingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ClinicSettingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload>
+        }
+        findFirst: {
+          args: Prisma.ClinicSettingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ClinicSettingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload>
+        }
+        findMany: {
+          args: Prisma.ClinicSettingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload>[]
+        }
+        create: {
+          args: Prisma.ClinicSettingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload>
+        }
+        createMany: {
+          args: Prisma.ClinicSettingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ClinicSettingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload>[]
+        }
+        delete: {
+          args: Prisma.ClinicSettingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload>
+        }
+        update: {
+          args: Prisma.ClinicSettingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload>
+        }
+        deleteMany: {
+          args: Prisma.ClinicSettingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ClinicSettingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ClinicSettingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload>[]
+        }
+        upsert: {
+          args: Prisma.ClinicSettingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClinicSettingPayload>
+        }
+        aggregate: {
+          args: Prisma.ClinicSettingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClinicSetting>
+        }
+        groupBy: {
+          args: Prisma.ClinicSettingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClinicSettingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ClinicSettingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClinicSettingCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -901,6 +976,15 @@ export const AdminInvitationScalarFieldEnum = {
 } as const
 
 export type AdminInvitationScalarFieldEnum = (typeof AdminInvitationScalarFieldEnum)[keyof typeof AdminInvitationScalarFieldEnum]
+
+
+export const ClinicSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClinicSettingScalarFieldEnum = (typeof ClinicSettingScalarFieldEnum)[keyof typeof ClinicSettingScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1179,6 +1263,7 @@ export type GlobalOmitConfig = {
   adminUser?: Prisma.AdminUserOmit
   adminSession?: Prisma.AdminSessionOmit
   adminInvitation?: Prisma.AdminInvitationOmit
+  clinicSetting?: Prisma.ClinicSettingOmit
 }
 
 /* Types for Logging */

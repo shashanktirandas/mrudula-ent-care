@@ -66,3 +66,8 @@ export type AdminSession = Prisma.AdminSessionModel
  * 
  */
 export type AdminInvitation = Prisma.AdminInvitationModel
+/**
+ * Model ClinicSetting
+ * 
+ */
+export type ClinicSetting = Prisma.ClinicSettingModel

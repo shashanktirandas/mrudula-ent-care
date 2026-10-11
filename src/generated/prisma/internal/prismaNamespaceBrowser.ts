@@ -55,7 +55,8 @@ export const ModelName = {
   AppointmentStatusHistory: 'AppointmentStatusHistory',
   AdminUser: 'AdminUser',
   AdminSession: 'AdminSession',
-  AdminInvitation: 'AdminInvitation'
+  AdminInvitation: 'AdminInvitation',
+  ClinicSetting: 'ClinicSetting'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -145,6 +146,15 @@ export const AdminInvitationScalarFieldEnum = {
 } as const
 
 export type AdminInvitationScalarFieldEnum = (typeof AdminInvitationScalarFieldEnum)[keyof typeof AdminInvitationScalarFieldEnum]
+
+
+export const ClinicSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClinicSettingScalarFieldEnum = (typeof ClinicSettingScalarFieldEnum)[keyof typeof ClinicSettingScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -111,3 +111,10 @@ model AdminInvitation {
   @@index([expiresAt])
   @@index([invitedById])
 }
+
+
+model ClinicSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
