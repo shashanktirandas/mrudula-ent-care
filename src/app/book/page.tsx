@@ -34,6 +34,7 @@ const times = [
 interface FormData {
   concern: string;
   name: string;
+  email: string;
   phone: string;
   date: string;
   time: string;
@@ -44,6 +45,7 @@ interface FormData {
 const initialForm: FormData = {
   concern: "",
   name: "",
+  email: "",
   phone: "",
   date: "",
   time: "",
@@ -78,7 +80,7 @@ function updateField(
   }));
 }
 
-  
+
 async function handleSubmit(event: FormEvent<HTMLFormElement>) {
   event.preventDefault();
 
@@ -90,6 +92,7 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
   if (
     !form.concern ||
     !form.name.trim() ||
+    !form.email.trim() ||
     !form.phone.trim() ||
     !form.date ||
     !form.time ||
@@ -113,6 +116,7 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
   const payload = {
   concern: form.concern,
   name: form.name.trim(),
+  email: form.email.trim().toLowerCase(),
   phone: phoneDigits,
   date: form.date,
   time: form.time,
@@ -131,7 +135,7 @@ if (
 
 submittedPayloadRef.current = payloadFingerprint;
   try {
-  
+
 
 const requestKey =
   requestKeyRef.current ?? crypto.randomUUID();
@@ -145,15 +149,16 @@ const response = await fetch("/api/appointments", {
     "Idempotency-Key": requestKey,
   },
   body: JSON.stringify({
-    requestKey,
-    concern: form.concern,
-    name: form.name.trim(),
-    phone: phoneDigits,
-    date: form.date,
-    time: form.time,
-    message: form.message.trim(),
-    consent: form.consent,
-  }),
+  requestKey,
+  concern: form.concern,
+  name: form.name.trim(),
+  email: form.email.trim().toLowerCase(),
+  phone: phoneDigits,
+  date: form.date,
+  time: form.time,
+  message: form.message.trim(),
+  consent: form.consent,
+}),
 });
 
 
@@ -190,7 +195,7 @@ const response = await fetch("/api/appointments", {
 requestKeyRef.current = null;
 submittedPayloadRef.current = null;
     setSubmitted(true);
-    
+
   } catch {
     setError(
       "We could not connect to the clinic booking service. Please try again.",
@@ -406,7 +411,7 @@ submittedPayloadRef.current = null;
                             }
                             className="sr-only"
                           />
-                           
+
 
                           <span
                             aria-hidden="true"
@@ -518,6 +523,44 @@ submittedPayloadRef.current = null;
                     )}
                   </div>
                 </div>
+
+{/* Email address */}
+<div>
+  <label
+    htmlFor="email"
+    className="text-sm font-semibold text-[var(--midnight)]"
+  >
+    Email address
+    <span className="ml-1 text-[var(--gold)]" aria-hidden="true">
+      *
+    </span>
+  </label>
+
+  <input
+    id="email"
+    name="email"
+    type="email"
+    autoComplete="email"
+    value={form.email}
+    required
+    maxLength={254}
+    aria-invalid={Boolean(fieldErrors.email)}
+    aria-describedby={fieldErrors.email ? "email-error" : undefined}
+    onChange={(event) => updateField("email", event.target.value)}
+    placeholder="Enter your email address"
+    className="mt-3 min-h-13 w-full border border-[var(--border)] bg-white px-4 text-sm text-[var(--midnight)] outline-none transition-colors placeholder:text-[var(--muted)]/60 focus:border-[var(--teal)]"
+  />
+
+  {fieldErrors.email && (
+    <p id="email-error" className="mt-2 text-xs leading-5 text-red-700">
+      {fieldErrors.email}
+    </p>
+  )}
+
+  <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
+    We&apos;ll email you a receipt of your appointment request.
+  </p>
+</div>
 
                 {/* Date and time */}
                 <div className="grid gap-6 sm:grid-cols-2">

@@ -14,6 +14,7 @@ model Appointment {
   concern       String
   patientName   String
   phone         String
+  email         String?
   preferredDate DateTime
   preferredTime String
   message       String?

@@ -30,6 +30,7 @@ export type AppointmentMinAggregateOutputType = {
   concern: string | null
   patientName: string | null
   phone: string | null
+  email: string | null
   preferredDate: Date | null
   preferredTime: string | null
   message: string | null
@@ -45,6 +46,7 @@ export type AppointmentMaxAggregateOutputType = {
   concern: string | null
   patientName: string | null
   phone: string | null
+  email: string | null
   preferredDate: Date | null
   preferredTime: string | null
   message: string | null
@@ -60,6 +62,7 @@ export type AppointmentCountAggregateOutputType = {
   concern: number
   patientName: number
   phone: number
+  email: number
   preferredDate: number
   preferredTime: number
   message: number
@@ -77,6 +80,7 @@ export type AppointmentMinAggregateInputType = {
   concern?: true
   patientName?: true
   phone?: true
+  email?: true
   preferredDate?: true
   preferredTime?: true
   message?: true
@@ -92,6 +96,7 @@ export type AppointmentMaxAggregateInputType = {
   concern?: true
   patientName?: true
   phone?: true
+  email?: true
   preferredDate?: true
   preferredTime?: true
   message?: true
@@ -107,6 +112,7 @@ export type AppointmentCountAggregateInputType = {
   concern?: true
   patientName?: true
   phone?: true
+  email?: true
   preferredDate?: true
   preferredTime?: true
   message?: true
@@ -195,6 +201,7 @@ export type AppointmentGroupByOutputType = {
   concern: string
   patientName: string
   phone: string
+  email: string | null
   preferredDate: Date
   preferredTime: string
   message: string | null
@@ -231,6 +238,7 @@ export type AppointmentWhereInput = {
   concern?: Prisma.StringFilter<"Appointment"> | string
   patientName?: Prisma.StringFilter<"Appointment"> | string
   phone?: Prisma.StringFilter<"Appointment"> | string
+  email?: Prisma.StringNullableFilter<"Appointment"> | string | null
   preferredDate?: Prisma.DateTimeFilter<"Appointment"> | Date | string
   preferredTime?: Prisma.StringFilter<"Appointment"> | string
   message?: Prisma.StringNullableFilter<"Appointment"> | string | null
@@ -247,6 +255,7 @@ export type AppointmentOrderByWithRelationInput = {
   concern?: Prisma.SortOrder
   patientName?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   preferredDate?: Prisma.SortOrder
   preferredTime?: Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -266,6 +275,7 @@ export type AppointmentWhereUniqueInput = Prisma.AtLeast<{
   concern?: Prisma.StringFilter<"Appointment"> | string
   patientName?: Prisma.StringFilter<"Appointment"> | string
   phone?: Prisma.StringFilter<"Appointment"> | string
+  email?: Prisma.StringNullableFilter<"Appointment"> | string | null
   preferredDate?: Prisma.DateTimeFilter<"Appointment"> | Date | string
   preferredTime?: Prisma.StringFilter<"Appointment"> | string
   message?: Prisma.StringNullableFilter<"Appointment"> | string | null
@@ -282,6 +292,7 @@ export type AppointmentOrderByWithAggregationInput = {
   concern?: Prisma.SortOrder
   patientName?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   preferredDate?: Prisma.SortOrder
   preferredTime?: Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -303,6 +314,7 @@ export type AppointmentScalarWhereWithAggregatesInput = {
   concern?: Prisma.StringWithAggregatesFilter<"Appointment"> | string
   patientName?: Prisma.StringWithAggregatesFilter<"Appointment"> | string
   phone?: Prisma.StringWithAggregatesFilter<"Appointment"> | string
+  email?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
   preferredDate?: Prisma.DateTimeWithAggregatesFilter<"Appointment"> | Date | string
   preferredTime?: Prisma.StringWithAggregatesFilter<"Appointment"> | string
   message?: Prisma.StringNullableWithAggregatesFilter<"Appointment"> | string | null
@@ -318,6 +330,7 @@ export type AppointmentCreateInput = {
   concern: string
   patientName: string
   phone: string
+  email?: string | null
   preferredDate: Date | string
   preferredTime: string
   message?: string | null
@@ -334,6 +347,7 @@ export type AppointmentUncheckedCreateInput = {
   concern: string
   patientName: string
   phone: string
+  email?: string | null
   preferredDate: Date | string
   preferredTime: string
   message?: string | null
@@ -350,6 +364,7 @@ export type AppointmentUpdateInput = {
   concern?: Prisma.StringFieldUpdateOperationsInput | string
   patientName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   preferredTime?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -366,6 +381,7 @@ export type AppointmentUncheckedUpdateInput = {
   concern?: Prisma.StringFieldUpdateOperationsInput | string
   patientName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   preferredTime?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -382,6 +398,7 @@ export type AppointmentCreateManyInput = {
   concern: string
   patientName: string
   phone: string
+  email?: string | null
   preferredDate: Date | string
   preferredTime: string
   message?: string | null
@@ -397,6 +414,7 @@ export type AppointmentUpdateManyMutationInput = {
   concern?: Prisma.StringFieldUpdateOperationsInput | string
   patientName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   preferredTime?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -412,6 +430,7 @@ export type AppointmentUncheckedUpdateManyInput = {
   concern?: Prisma.StringFieldUpdateOperationsInput | string
   patientName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   preferredTime?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -427,6 +446,7 @@ export type AppointmentCountOrderByAggregateInput = {
   concern?: Prisma.SortOrder
   patientName?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  email?: Prisma.SortOrder
   preferredDate?: Prisma.SortOrder
   preferredTime?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -442,6 +462,7 @@ export type AppointmentMaxOrderByAggregateInput = {
   concern?: Prisma.SortOrder
   patientName?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  email?: Prisma.SortOrder
   preferredDate?: Prisma.SortOrder
   preferredTime?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -457,6 +478,7 @@ export type AppointmentMinOrderByAggregateInput = {
   concern?: Prisma.SortOrder
   patientName?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  email?: Prisma.SortOrder
   preferredDate?: Prisma.SortOrder
   preferredTime?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -475,12 +497,12 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -511,6 +533,7 @@ export type AppointmentCreateWithoutStatusHistoryInput = {
   concern: string
   patientName: string
   phone: string
+  email?: string | null
   preferredDate: Date | string
   preferredTime: string
   message?: string | null
@@ -526,6 +549,7 @@ export type AppointmentUncheckedCreateWithoutStatusHistoryInput = {
   concern: string
   patientName: string
   phone: string
+  email?: string | null
   preferredDate: Date | string
   preferredTime: string
   message?: string | null
@@ -557,6 +581,7 @@ export type AppointmentUpdateWithoutStatusHistoryInput = {
   concern?: Prisma.StringFieldUpdateOperationsInput | string
   patientName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   preferredTime?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -572,6 +597,7 @@ export type AppointmentUncheckedUpdateWithoutStatusHistoryInput = {
   concern?: Prisma.StringFieldUpdateOperationsInput | string
   patientName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   preferredTime?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -618,6 +644,7 @@ export type AppointmentSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   concern?: boolean
   patientName?: boolean
   phone?: boolean
+  email?: boolean
   preferredDate?: boolean
   preferredTime?: boolean
   message?: boolean
@@ -635,6 +662,7 @@ export type AppointmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   concern?: boolean
   patientName?: boolean
   phone?: boolean
+  email?: boolean
   preferredDate?: boolean
   preferredTime?: boolean
   message?: boolean
@@ -650,6 +678,7 @@ export type AppointmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   concern?: boolean
   patientName?: boolean
   phone?: boolean
+  email?: boolean
   preferredDate?: boolean
   preferredTime?: boolean
   message?: boolean
@@ -665,6 +694,7 @@ export type AppointmentSelectScalar = {
   concern?: boolean
   patientName?: boolean
   phone?: boolean
+  email?: boolean
   preferredDate?: boolean
   preferredTime?: boolean
   message?: boolean
@@ -674,7 +704,7 @@ export type AppointmentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type AppointmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "requestKey" | "concern" | "patientName" | "phone" | "preferredDate" | "preferredTime" | "message" | "consent" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["appointment"]>
+export type AppointmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "requestKey" | "concern" | "patientName" | "phone" | "email" | "preferredDate" | "preferredTime" | "message" | "consent" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["appointment"]>
 export type AppointmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   statusHistory?: boolean | Prisma.Appointment$statusHistoryArgs<ExtArgs>
   _count?: boolean | Prisma.AppointmentCountOutputTypeDefaultArgs<ExtArgs>
@@ -693,6 +723,7 @@ export type $AppointmentPayload<ExtArgs extends runtime.Types.Extensions.Interna
     concern: string
     patientName: string
     phone: string
+    email: string | null
     preferredDate: Date
     preferredTime: string
     message: string | null
@@ -1129,6 +1160,7 @@ export interface AppointmentFieldRefs {
   readonly concern: Prisma.FieldRef<"Appointment", 'String'>
   readonly patientName: Prisma.FieldRef<"Appointment", 'String'>
   readonly phone: Prisma.FieldRef<"Appointment", 'String'>
+  readonly email: Prisma.FieldRef<"Appointment", 'String'>
   readonly preferredDate: Prisma.FieldRef<"Appointment", 'DateTime'>
   readonly preferredTime: Prisma.FieldRef<"Appointment", 'String'>
   readonly message: Prisma.FieldRef<"Appointment", 'String'>

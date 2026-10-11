@@ -77,6 +77,13 @@ export const appointmentSchema = z
       .min(2, "Please enter your full name.")
       .max(100, "Name is too long."),
 
+    email: z
+      .string()
+      .trim()
+      .email("Please enter a valid email address.")
+      .max(254, "Email address is too long.")
+      .transform((value) => value.toLowerCase()),
+
     phone: z
       .string()
       .trim()

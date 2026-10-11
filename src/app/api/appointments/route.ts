@@ -8,6 +8,11 @@ import { isIP } from "node:net";
 import { appointmentRateLimit } from "@/lib/security/rate-limit";
 
 
+import {
+  sendPatientAppointmentEmail,
+  sendClinicAppointmentNotification,
+} from "@/lib/email/send-appointment-emails";
+
 
 function getClientIp(request: Request): string | null {
   if (process.env.NODE_ENV !== "production") {
@@ -35,6 +40,40 @@ function isUniqueConstraintError(error: unknown): boolean {
     error.code === "P2002"
   );
 }
+
+async function sendAppointmentEmailsSafely(input: {
+  patientName: string;
+  patientPhone: string;
+  patientEmail: string;
+  concern: string;
+  preferredDate: Date;
+  preferredTime: string;
+  appointmentId: string;
+}) {
+  try {
+    const results = await Promise.allSettled([
+      sendPatientAppointmentEmail(input),
+      sendClinicAppointmentNotification(input),
+    ]);
+
+    const labels = ["patient confirmation", "clinic notification"];
+
+    results.forEach((result, index) => {
+      if (result.status === "rejected") {
+        console.error("Appointment email failed:", {
+          type: labels[index],
+          appointmentId: input.appointmentId,
+        });
+      }
+    });
+  } catch {
+    // Email delivery must never invalidate a saved appointment.
+    console.error("Appointment email processing failed:", {
+      appointmentId: input.appointmentId,
+    });
+  }
+}
+
 
 
 export async function POST(request: Request) {
@@ -67,27 +106,50 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!rateLimitResult.success) {
-      const retryAfterSeconds = Math.max(
-        1,
-        Math.ceil((rateLimitResult.reset - Date.now()) / 1000),
-      );
 
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Too many booking attempts. Please wait before trying again.",
-        },
-        {
-          status: 429,
-          headers: {
-            "Retry-After": String(retryAfterSeconds),
-            "X-RateLimit-Limit": String(rateLimitResult.limit),
-            "X-RateLimit-Remaining": String(rateLimitResult.remaining),
+    if (process.env.NODE_ENV === "production") {
+      let rateLimitResult;
+
+      try {
+        rateLimitResult = await appointmentRateLimit.limit(clientIp);
+      } catch (error) {
+        console.error(
+          "Appointment rate limiter unavailable:",
+          error instanceof Error ? error.message : "Unknown error",
+        );
+
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Booking is temporarily unavailable. Please try again later.",
           },
-        },
-      );
+          { status: 503 },
+        );
+      }
+
+      if (!rateLimitResult.success) {
+        const retryAfterSeconds = Math.max(
+          1,
+          Math.ceil((rateLimitResult.reset - Date.now()) / 1000),
+        );
+
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Too many booking attempts. Please wait before trying again.",
+          },
+          {
+            status: 429,
+            headers: {
+              "Retry-After": String(retryAfterSeconds),
+              "X-RateLimit-Limit": String(rateLimitResult.limit),
+              "X-RateLimit-Remaining": String(rateLimitResult.remaining),
+            },
+          },
+        );
+      }
     }
+
 
     // Keep your existing request-size, content-type, idempotency,
     // validation, and database logic here unchanged.
@@ -116,7 +178,7 @@ export async function POST(request: Request) {
     }
 
     // 2. Accept JSON requests only.
-    
+
 const contentType = request.headers
   .get("content-type")
   ?.split(";")[0]
@@ -209,6 +271,7 @@ if (contentType !== "application/json") {
     const {
       concern,
       name,
+      email,
       phone,
       date,
       time,
@@ -226,12 +289,24 @@ if (contentType !== "application/json") {
           requestKey,
           concern,
           patientName: name,
+          email,
           phone,
           preferredDate,
           preferredTime: time,
           message: message || null,
           consent,
         },
+      });
+
+
+      await sendAppointmentEmailsSafely({
+        patientName: name,
+        patientPhone: phone,
+        patientEmail: email,
+        concern,
+        preferredDate,
+        preferredTime: time,
+        appointmentId: appointment.id,
       });
 
       return NextResponse.json(
@@ -241,6 +316,7 @@ if (contentType !== "application/json") {
         },
         { status: 201 },
       );
+
     } catch (error) {
       // Concurrent requests using the same key may race.
       // The database unique constraint allows only one insert.
@@ -248,13 +324,14 @@ if (contentType !== "application/json") {
         throw error;
       }
 
-      
+
 const existing = await prisma.appointment.findUnique({
   where: { requestKey },
   select: {
     id: true,
     concern: true,
     patientName: true,
+    email: true,
     phone: true,
     preferredDate: true,
     preferredTime: true,
@@ -268,6 +345,7 @@ if (
   (
     existing.concern !== concern ||
     existing.patientName !== name ||
+    existing.email !== email ||
     existing.phone !== phone ||
     existing.preferredDate.getTime() !== preferredDate.getTime() ||
     existing.preferredTime !== time ||

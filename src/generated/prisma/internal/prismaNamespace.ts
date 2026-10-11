@@ -911,6 +911,7 @@ export const AppointmentScalarFieldEnum = {
   concern: 'concern',
   patientName: 'patientName',
   phone: 'phone',
+  email: 'email',
   preferredDate: 'preferredDate',
   preferredTime: 'preferredTime',
   message: 'message',
