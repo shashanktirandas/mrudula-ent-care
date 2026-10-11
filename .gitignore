@@ -48,3 +48,6 @@ next-env.d.ts
 
 # Local-only failure simulation test
 /scripts/test-rate-limit-failure.ts
+
+# Local Neon project and branch context
+.neon
